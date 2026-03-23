@@ -32,27 +32,29 @@ public static class XorCodec
         data[offset + 3] = (byte)((value >> 24) & 0xFF);
     }
 
-    // Decode Big5 name: first byte is length, then 20 bytes reversed
-    public static string DecodeName(byte[] data, int offset)
+    // Decode Big5 name: [length 1B][name 20B]
+    // Name bytes are stored reversed within a boundary region.
+    // Item: boundary=14 (name at indices 14-len..13), NPC: boundary=10 (name at indices 10-len..9)
+    public static string DecodeName(byte[] data, int offset, int boundary = 14)
     {
         int len = data[offset];
-        if (len == 0 || len > 20) return string.Empty;
+        if (len == 0 || len > boundary) return string.Empty;
         byte[] nameBytes = new byte[len];
         for (int i = 0; i < len; i++)
-            nameBytes[i] = data[offset + (20 - i)];
+            nameBytes[i] = data[offset + 1 + (boundary - 1 - i)];
         return System.Text.Encoding.GetEncoding("big5").GetString(nameBytes).TrimEnd('\0');
     }
 
-    // Encode name back to reversed Big5 format
-    public static void EncodeName(byte[] data, int offset, string name)
+    // Encode name back to reversed Big5 format within boundary region
+    public static void EncodeName(byte[] data, int offset, string name, int boundary = 14)
     {
         byte[] nameBytes = System.Text.Encoding.GetEncoding("big5").GetBytes(name);
-        int len = Math.Min(nameBytes.Length, 20);
+        int len = Math.Min(nameBytes.Length, boundary);
         // Clear the 21-byte name field
         for (int i = 0; i < 21; i++) data[offset + i] = 0;
         data[offset] = (byte)len;
         for (int i = 0; i < len; i++)
-            data[offset + (20 - i)] = nameBytes[i];
+            data[offset + 1 + (boundary - 1 - i)] = nameBytes[i];
     }
 
     // Decode description (same pattern but 255 bytes, reversed)

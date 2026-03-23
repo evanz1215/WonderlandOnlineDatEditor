@@ -67,7 +67,7 @@ public class NpcRecord
         var r = new NpcRecord();
         int ptr = offset;
 
-        r.Name = XorCodec.DecodeName(data, ptr); ptr += 21;
+        r.Name = XorCodec.DecodeName(data, ptr, boundary: 10); ptr += 21;
         r.Type = XorCodec.DecodeByte(data[ptr], Keys); ptr++;
         r.NpcID = XorCodec.DecodeWord(XorCodec.ReadUInt16(data, ptr), Keys); ptr += 2;
         r.ImageNum = XorCodec.DecodeWord(XorCodec.ReadUInt16(data, ptr), Keys); ptr += 2;
