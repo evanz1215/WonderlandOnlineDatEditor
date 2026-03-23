@@ -1,0 +1,73 @@
+<Window x:Class="WonderlandOnlineDatEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WonderlandOnline Dat Editor"
+        Width="1200" Height="800" MinWidth="800" MinHeight="600"
+        Background="{StaticResource BgDark}"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="20,16,20,0">
+            <TextBlock Text="WonderlandOnline Dat Editor" FontSize="22" FontWeight="Bold"
+                       Foreground="{StaticResource Accent}"/>
+            <TextBlock Text="Item / Npc / Skill / Scene / Compound2" FontSize="12"
+                       Foreground="{StaticResource FgMuted}" Margin="0,2,0,0"/>
+        </StackPanel>
+
+        <!-- Toolbar -->
+        <Grid Grid.Row="1" Margin="20,12,20,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="220"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Open" Click="Open_Click" Margin="0,0,8,0"/>
+            <Button Grid.Column="1" x:Name="btnSave" Content="Save" Click="Save_Click"
+                    IsEnabled="False" Margin="0,0,8,0"/>
+            <Button Grid.Column="2" x:Name="btnExportCsv" Content="Export CSV" Click="ExportCsv_Click"
+                    IsEnabled="False" Margin="0,0,8,0"/>
+
+            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                <TextBlock x:Name="lblFileType" Text="" FontWeight="SemiBold"
+                           Foreground="{StaticResource Accent}" Margin="0,0,12,0"/>
+                <TextBlock x:Name="lblRecordCount" Text="" Foreground="{StaticResource FgSecondary}"/>
+            </StackPanel>
+
+            <TextBlock Grid.Column="4" Text="Search:" VerticalAlignment="Center"
+                       Foreground="{StaticResource FgSecondary}" Margin="0,0,6,0"/>
+            <TextBox Grid.Column="5" x:Name="txtSearch" VerticalContentAlignment="Center"
+                     TextChanged="Search_TextChanged"/>
+        </Grid>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="2" x:Name="dataGrid" Margin="20,0,20,0"
+                  AutoGenerateColumns="True" IsReadOnly="False"
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                  EnableRowVirtualization="True"/>
+
+        <!-- Status bar -->
+        <Border Grid.Row="3" Background="{StaticResource BgCard}" Padding="20,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="lblStatus" Text="No file loaded"
+                           Foreground="{StaticResource FgMuted}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" x:Name="lblFileSize" Text=""
+                           Foreground="{StaticResource FgMuted}" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
