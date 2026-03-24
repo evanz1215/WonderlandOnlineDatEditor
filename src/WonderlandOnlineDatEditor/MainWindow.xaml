@@ -17,7 +17,7 @@
         <StackPanel Grid.Row="0" Margin="20,16,20,0">
             <TextBlock Text="WonderlandOnline Dat Editor" FontSize="22" FontWeight="Bold"
                        Foreground="{StaticResource Accent}"/>
-            <TextBlock Text="Item / Npc / Skill / Scene / Compound2" FontSize="12"
+            <TextBlock Text="Item / Npc / Skill / Scene / Compound / Talk / Mark / Formula / Eve.emg / Ground.MMG / Wem.MMG / TrafficSetting + Raw Viewer" FontSize="12"
                        Foreground="{StaticResource FgMuted}" Margin="0,2,0,0"/>
         </StackPanel>
 
@@ -27,7 +27,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="220"/>
             </Grid.ColumnDefinitions>
@@ -37,24 +39,37 @@
                     IsEnabled="False" Margin="0,0,8,0"/>
             <Button Grid.Column="2" x:Name="btnExportCsv" Content="Export CSV" Click="ExportCsv_Click"
                     IsEnabled="False" Margin="0,0,8,0"/>
+            <Button Grid.Column="3" x:Name="btnCloseTab" Content="Close Tab" Click="CloseTab_Click"
+                    IsEnabled="False" Margin="0,0,8,0"/>
 
-            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+            <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
                 <TextBlock x:Name="lblFileType" Text="" FontWeight="SemiBold"
                            Foreground="{StaticResource Accent}" Margin="0,0,12,0"/>
                 <TextBlock x:Name="lblRecordCount" Text="" Foreground="{StaticResource FgSecondary}"/>
             </StackPanel>
 
-            <TextBlock Grid.Column="4" Text="Search:" VerticalAlignment="Center"
+            <TextBlock Grid.Column="6" Text="Search:" VerticalAlignment="Center"
                        Foreground="{StaticResource FgSecondary}" Margin="0,0,6,0"/>
-            <TextBox Grid.Column="5" x:Name="txtSearch" VerticalContentAlignment="Center"
+            <TextBox Grid.Column="7" x:Name="txtSearch" VerticalContentAlignment="Center"
                      TextChanged="Search_TextChanged"/>
         </Grid>
 
-        <!-- DataGrid -->
-        <DataGrid Grid.Row="2" x:Name="dataGrid" Margin="20,0,20,0"
-                  AutoGenerateColumns="True" IsReadOnly="False"
-                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                  EnableRowVirtualization="True"/>
+        <!-- TabControl with DataGrids -->
+        <Grid Grid.Row="2" Margin="20,0,20,0">
+            <!-- Placeholder when no tabs open -->
+            <TextBlock x:Name="lblPlaceholder"
+                       Text="Open a file to begin"
+                       Foreground="{StaticResource FgMuted}" FontSize="16"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <TabControl x:Name="tabControl"
+                        Background="Transparent"
+                        BorderBrush="{StaticResource Border}"
+                        SelectionChanged="TabControl_SelectionChanged"
+                        Visibility="Collapsed">
+                <!-- Tabs added dynamically -->
+            </TabControl>
+        </Grid>
 
         <!-- Status bar -->
         <Border Grid.Row="3" Background="{StaticResource BgCard}" Padding="20,8">
